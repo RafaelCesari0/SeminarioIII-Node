@@ -27,77 +27,70 @@ app.get("/games", (req, res) => {
         res.json(games);
 });
 
-// // Busca jogo especifico
+// Busca jogo especifico
+app.get("/games/:nome", (req, res) => {
+        const nome = req.params.nome;
 
-// app.get("/games/:nome", (req, res) => {
+        const jogo = games.find((game) => {
+                return game.nome.toLowerCase() === nome.toLowerCase();
+        });
 
-//     const nome = req.params.nome;
-
-//     const jogo = games.find((game) => {
-//         return game.nome.toLowerCase() === nome.toLowerCase();
-//     });
-
-//     res.json(jogo || { erro: "Jogo não encontrado" });
-// });
+        res.json(jogo || { erro: "Jogo não encontrado" });
+});
 
 // Cadastra novo jogo
 app.post("/games", (req, res) => {
-    const novoJogo = req.body;
+        const novoJogo = req.body;
 
-    games.push(novoJogo);
-    
-    console.log("Novo jogo adicionado: " + req.body.nome);
+        games.push(novoJogo);
 
-    res.json({
-        mensagem: "Jogo cadastrado",
-        jogo: novoJogo
-    });
+        console.log("Novo jogo adicionado: " + req.body.nome);
+
+        res.json({
+                mensagem: "Jogo cadastrado",
+                jogo: novoJogo,
+        });
 });
 
 // Atualiza um jogo
 app.put("/games/:id", (req, res) => {
+        const id = Number(req.params.id);
 
-    const id = Number(req.params.id);
+        const jogo = games.find((game) => game.id === id);
 
-    const jogo = games.find((game) => game.id === id);
+        if (!jogo) {
+                return res.json({
+                        erro: "Jogo não encontrado",
+                });
+        }
 
-    if (!jogo) {
+        jogo.nome = req.body.nome;
+        jogo.categoria = req.body.categoria;
 
-        return res.json({
-            erro: "Jogo não encontrado"
+        res.json({
+                mensagem: "Jogo atualizado",
+                jogo,
         });
-    }
-
-    jogo.nome = req.body.nome;
-    jogo.categoria = req.body.categoria;
-
-    res.json({
-        mensagem: "Jogo atualizado",
-        jogo
-    });
 });
 
-// // Deleta um jogo
-// app.delete("/games/:id", (req, res) => {
+// Deleta um jogo
+app.delete("/games/:id", (req, res) => {
+        const id = Number(req.params.id);
 
-//     const id = Number(req.params.id);
+        const index = games.findIndex((game) => game.id === id);
 
-//     const index = games.findIndex((game) => game.id === id);
+        if (index === -1) {
+                return res.json({
+                        erro: "Jogo não encontrado",
+                });
+        }
 
-//     if (index === -1) {
+        games.splice(index, 1);
 
-//         return res.json({
-//             erro: "Jogo não encontrado"
-//         });
-//     }
-
-//     games.splice(index, 1);
-
-//     res.json({
-//         mensagem: "Jogo removido"
-//     });
-// });
-
+        res.json({
+                mensagem: "Jogo removido",
+        });
+});
 
 //Inicia servidor
 app.listen(3000, () => {
