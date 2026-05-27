@@ -10,16 +10,21 @@ console.log("=== API DE GAMES ===");
 const games = [
         { id: 1, nome: "League of Legends", categoria: "Moba" },
         { id: 2, nome: "Counter Strike", categoria: "FPS" },
+        { id: 3, nome: "The Witcher 3: Wild Hunt", categoria: "RPG" },
+        { id: 4, nome: "Minecraft", categoria: "Sandbox" },
+        { id: 5, nome: "Valorant", categoria: "FPS" },
+        { id: 6, nome: "Dota 2", categoria: "Moba" },
+        { id: 7, nome: "Resident Evil 4", categoria: "Survival Horror" },
+        { id: 8, nome: "FIFA 23", categoria: "Esportes" },
+        { id: 9, nome: "Elden Ring", categoria: "Action RPG" },
+        { id: 10, nome: "Grand Theft Auto V", categoria: "Ação/Aventura" },
+        { id: 11, nome: "Rocket League", categoria: "Esportes" },
+        { id: 12, nome: "Cyberpunk 2077", categoria: "RPG" },
 ];
 
 // Lista todos os jogos
 app.get("/games", (req, res) => {
         res.json(games);
-});
-
-//Inicia servidor
-app.listen(3000, () => {
-        console.log("Servidor rodando em http://localhost:3000");
 });
 
 // // Busca jogo especifico
@@ -35,18 +40,17 @@ app.listen(3000, () => {
 //     res.json(jogo || { erro: "Jogo não encontrado" });
 // });
 
-// // Cadastra novo jogo
-// app.post("/games", (req, res) => {
+// Cadastra novo jogo
+app.post("/games", (req, res) => {
+    const novoJogo = req.body;
 
-//     const novoJogo = req.body;
+    games.push(novoJogo);
 
-//     games.push(novoJogo);
-
-//     res.json({
-//         mensagem: "Jogo cadastrado",
-//         jogo: novoJogo
-//     });
-// });
+    res.json({
+        mensagem: "Jogo cadastrado",
+        jogo: novoJogo
+    });
+});
 
 // // Atualiza um jogo
 // app.put("/games/:id", (req, res) => {
@@ -91,3 +95,9 @@ app.listen(3000, () => {
 //         mensagem: "Jogo removido"
 //     });
 // });
+
+
+//Inicia servidor
+app.listen(3000, () => {
+        console.log("Servidor rodando em http://localhost:3000");
+});
