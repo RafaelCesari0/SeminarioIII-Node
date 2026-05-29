@@ -6,6 +6,18 @@ export const findAllGames = async () => {
         return result.rows;
 };
 
+export const findGameByIdRepository = async (id: number) => {
+        const result = await pool.query(
+                `
+                SELECT * FROM games
+                WHERE id = $1
+                `,
+                [id],
+        );
+
+        return result.rows[0];
+};
+
 export const createGameRepository = async (nome: string, categoria: string, nota: number) => {
         const result = await pool.query(
                 `
@@ -14,6 +26,20 @@ export const createGameRepository = async (nome: string, categoria: string, nota
         RETURNING * 
         `,
                 [nome, categoria, nota],
+        );
+
+        return result.rows[0];
+};
+
+export const updateGameRepository = async (id: number, nome: string, categoria: string, nota: number) => {
+        const result = await pool.query(
+                `
+                UPDATE games
+                SET nome = $1, categoria = $2, nota = $3
+                WHERE id = $4
+                RETURNING *
+                `,
+                [nome, categoria, nota, id],
         );
 
         return result.rows[0];
