@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createGameService, getGame, getGames, updateGameService } from "../services/game.service";
+import { createGameService, deleteGameService, getGame, getGames, updateGameService } from "../services/game.service";
 
 export const findGames = async (req: Request, res: Response) => {
         const games = await getGames();
@@ -34,8 +34,19 @@ export const updateGameController = async (req: Request, res: Response) => {
 
                 const game = await updateGameService(id, nome, categoria, nota);
 
-                res.json(game);
+                res.status(200).json(game);
         } catch (error: any) {
                 res.status(400).json({ erro: error.message });
         }
 };
+
+export const deleteGameController = async (req: Request, res: Response) => {
+        try {
+                const id = Number(req.params.id);
+                const game = await deleteGameService(id);
+
+                res.status(200).json(game);
+        } catch (error: any) {
+                res.status(404).json({ erro: error.message });
+        }
+}

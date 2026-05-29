@@ -1,4 +1,4 @@
-import { createGameRepository, findAllGames, findGameByIdRepository, updateGameRepository } from "../repositories/game.repository";
+import { createGameRepository, deleteGameRepository, findAllGames, findGameByIdRepository, updateGameRepository } from "../repositories/game.repository";
 
 export const getGames = async () => {
     return await findAllGames();
@@ -38,4 +38,12 @@ export const updateGameService = async (id: number, nome: string, categoria: str
     if (!game) throw new Error("Jogo não encontrado");
 
     return await updateGameRepository(id, nome, categoria, nota);
+}
+
+export const deleteGameService = async ( id: number ) => {
+    const game = await deleteGameRepository(id);
+
+    if (!game) throw new Error("Jogo não encontrado");
+
+    return game;
 }

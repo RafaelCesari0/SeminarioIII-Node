@@ -44,3 +44,15 @@ export const updateGameRepository = async (id: number, nome: string, categoria: 
 
         return result.rows[0];
 };
+
+export const deleteGameRepository = async (id: number ) => {
+        const result = await pool.query(
+                `
+                DELETE FROM games
+                WHERE id = $1
+                RETURNING *
+                `, [id]
+        )
+        
+        return result.rows[0];
+}
