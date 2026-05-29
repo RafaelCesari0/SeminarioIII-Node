@@ -21,10 +21,10 @@ export const findGameByIdRepository = async (id: number) => {
 export const createGameRepository = async (nome: string, categoria: string, nota: number) => {
         const result = await pool.query(
                 `
-        INSERT INTO games (nome, categoria, nota)
-        VALUES ($1, $2, $3)
-        RETURNING * 
-        `,
+                INSERT INTO games (nome, categoria, nota)
+                VALUES ($1, $2, $3)
+                RETURNING * 
+                `,
                 [nome, categoria, nota],
         );
 
