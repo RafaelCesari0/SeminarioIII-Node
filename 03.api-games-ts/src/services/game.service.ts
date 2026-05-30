@@ -41,9 +41,5 @@ export const updateGameService = async (id: number, nome: string, categoria: str
 }
 
 export const deleteGameService = async ( id: number ) => {
-    const game = await deleteGameRepository(id);
-
-    if (!game) throw new Error("Jogo não encontrado");
-
-    return game;
+    await deleteGameRepository(id);
 }
